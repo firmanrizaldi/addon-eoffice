@@ -1,0 +1,78 @@
+<odoo>
+    <data>
+
+        <report 
+            id="report_doc_menu"
+            string="Print Surat"
+            model="eo.doc" 
+            report_type="qweb-pdf"
+            file="eo.doc" 
+            name="eo.doc_report"
+            />
+
+        <template id="doc_report">
+		    <t t-call="web.html_container">
+		        <t t-foreach="docs" t-as="doc">
+		            <t t-call="web.external_layout">
+                        <t t-set="doc" />
+                        <div class="page">
+
+                            <h3 style="text-align:center">
+                                <span t-field="doc.doc_template_id"/><br/>
+                                Nomor: <span t-field="doc.name"/>
+                            </h3>
+
+                            <br/>
+                            <br/>
+
+                            <table width="100%">
+                                <tr valign="top">
+                                    <td style="width:20%"><b>Perihal</b></td>
+                                    <td><span t-field="doc.subject"/></td>
+
+                                    <td style="width:20%"><b>Tanggal</b></td>
+                                    <td><span t-field="doc.date"/></td>
+                                </tr>
+
+                                <tr valign="top">
+                                    <td style="width:20%"><b>Kepada</b></td>
+                                    <td>
+                                        <ol style="padding-left:20px">
+                                            <t t-foreach="doc.to_user_ids" t-as="cc">
+                                                <li><span t-field="cc.user_id"/></li>
+                                            </t>                                    
+                                        </ol>
+                                    </td>
+                                    <td style="width:20%"><b>Klasifikasi</b></td>
+                                    <td><span t-esc="doc.doc_type_id.name"/></td>
+                                </tr>
+
+                                <tr>
+                                    <td style="width:20%"><b>Tembusan</b></td>
+                                    <td>
+                                        <ol style="padding-left:20px">
+                                            <t t-foreach="doc.cc_user_ids" t-as="cc">
+                                                <li><span t-field="cc.user_id"/></li>
+                                            </t>                                    
+                                        </ol>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br/>
+                            <br/>
+                            <p>
+                                <span t-raw="doc.body"/>
+                            </p>
+
+                        </div>
+					</t>
+		        </t>
+		    </t>
+		</template>
+
+
+
+    </data>
+</odoo>
+
